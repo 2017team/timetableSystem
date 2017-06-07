@@ -1,5 +1,5 @@
 <?php
-namespace app\common\validate;
+namespace app\zhangxishuo\validate;
 use think\Validate;
 
 class Teacher extends Validate

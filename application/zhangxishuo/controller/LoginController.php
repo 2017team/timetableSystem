@@ -1,8 +1,8 @@
 <?php
-namespace app\index\controller;
+namespace app\zhangxishuo\controller;
 use think\Controller;
 use think\Request;
-use app\common\model\Teacher;
+use app\zhangxishuo\model\Teacher;
 
 class LoginController extends Controller
 {
