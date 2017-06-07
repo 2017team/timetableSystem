@@ -1,7 +1,7 @@
 <?php
-namespace app\index\controller;
+namespace app\index\shucontroller;
       // 数据库操作类
-use app\common\model\Teacher ;//教师模型
+use app\common\shumodel\Teacher ;//教师模型
 use think\Controller;
 use think\Request;     //引用Request
 
