@@ -7,12 +7,21 @@ use think\Model;
 */
 class Klass extends Model
 {
-	public function getTeacher(){
-		echo '执行1次<br />';
+	private $Teacher;
 
-		$teacherId = $this->getData('teacher_id');
-		$Teacher = Teacher::get($teacherId);
-		return $Teacher;
-	}
+	public function getTeacher()
+    {
+        if (is_null($this->Teacher)) {
+            echo '执行1次 <br />';
+            $teacherId = $this->getData('teacher_id');
+            $this->Teacher = Teacher::get($teacherId);
+        }
+        return $this->Teacher;
+    }
 
+    public function Teacher(){
+    	echo '执行1次 <br />';
+    	$teacherId = $this->getData('teacher_id');
+    	return Teacher::get($teacherId);
+    }
 }
