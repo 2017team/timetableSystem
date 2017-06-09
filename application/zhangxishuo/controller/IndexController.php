@@ -1,7 +1,8 @@
 <?php
 namespace app\zhangxishuo\controller;
+use think\Controller;
 
-class IndexController
+class IndexController extends Controller
 {
 	public function index()
 	{
