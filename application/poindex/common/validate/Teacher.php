@@ -1,5 +1,5 @@
 <?php
-namespace app\common\validate;
+namespace app\poindex\common\validate;
 use think\Validate;		//内置验证类
 
 /**

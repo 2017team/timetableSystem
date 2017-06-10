@@ -1,8 +1,8 @@
 <?php
-namespace app\index\controller;
+namespace app\poindex\controller;
 use think\Controller;
 use think\Request;
-use app\common\model\Teacher;
+use app\poindex\common\model\Teacher;
 
 class LoginController extends Controller
 {
@@ -25,5 +25,21 @@ class LoginController extends Controller
         } else {
             return $this->error('username or password incorrent', url('index'));
         }
+    }
+
+    // 注销
+    public function logOut()
+    {
+        if (Teacher::logOut()) {
+            return $this->success('logout success', url('index'));
+        } else {
+            return $this->error('logout error', url('index'));
+        }
+    }
+
+    public function test()
+    {
+        $hello = ['hello'];
+        echo Teacher::encryptPassword($hello);
     }
 }

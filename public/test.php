@@ -11,16 +11,17 @@ class Son extends Father
 {
     public function __construct()
     {
-         echo 'Son construct';
-        
-        // 后执行父类构造函数
+
+        echo 'Son construct'; 
+
+        //后执行父类构造函数
         parent::__construct();
     }
 }
 
-$br = '<br />';
-$Father = new Father;
+$br='<br/>';
+$Father=new Father;
 
 echo $br;
 
-$Son = new Son;
+$Son=new Son;
