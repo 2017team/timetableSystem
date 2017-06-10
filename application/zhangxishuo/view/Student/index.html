@@ -47,9 +47,15 @@
                         {$student->sex}
                     </td>
                     <td>{$student->getData('email')}</td>
-                    <td>{$student->getData('create_time')}</td>
-                    <td>{$student->getData('klass_id')}</td>
-                    <td></td>
+                    <td>
+                        {$student->create_time}
+                    </td>
+                    <td>
+                        {$student->Klass->name}
+                    </td>
+                    <td>
+                        {$student->Klass->Teacher->name}
+                    </td>
                     <td><a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $student->getData('id'))}"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>&nbsp;<a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $student->getData('id'))}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a></td>
                 </tr>
                 {/volist}
