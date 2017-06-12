@@ -9,12 +9,14 @@
 <body class="contanier">
     <div class="row">
         <div class="col-md-12">
-            <form action="{:url('update')}" method="post">
+             {php}$action = request()->action() === 'add' ? 'insert' : 'update';{/php}
+            <form action="{:url($action)}" method="post">
                 <label>姓名:</label>
                 <input type="hidden" name="id" value="{$Teacher->getData('id')}" />
                 <input type="text" name="name" value="{$Teacher->getData('name')}" />
-                <label>用户名:</label>
-                <input type="text" name="username" value="{$Teacher->getData('username')}" />
+               <label>用户名:</label>
+                {eq name="Teacher->username" value=""}
+                <input type="text" name="username" value="{$Teacher->username}" /> {else /} {$Teacher->username} {/eq}
                 <label>性别:</label>
                 <select name="sex">
                     <option value="0">男</option>

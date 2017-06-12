@@ -5,9 +5,11 @@
     <title>编辑</title>
 </head>
 <body>
-    <form action="{:url('update')}" method="post">
+    {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
+      <form action="{:url($action)}" method="post">
         <input type="hidden" name="id" value="{$Klass->getData('id')}" />
-        <label for="name">name:</label><input type="text" name="name" id="name" value="{$Klass->getData('name')}" />
+        <label for="name">name:</label>
+        {eq name="Klass->name" value=""}<input type="text" name="name" id="name" value="{$Klass->getData('name')}" /> {else /} {$Klass->name} {/eq}
         <label for="teacher">teacher:</label>
        <select name="teacher_id" id="teacher">
            {volist name="teachers" id="_Teacher"}

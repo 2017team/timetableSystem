@@ -9,7 +9,8 @@
 <body class="contanier">
     <div class="row">
         <div class="col-md-12">
-            <form action="{:url('update')}" method="post">
+        {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
+            <form action="{:url($action)}" method="post">
                 <label>姓名:</label>
                 <input type="hidden" name="id" value="{$Student->getData('id')}" />
                 <input type="text" name="name" value="{$Student->getData('name')}" />

@@ -80,7 +80,21 @@ class StudentController extends IndexController
     }
     // 添加
     public function add() {
-      $htmls = $this->fetch();
+        $Student =new Student;
+
+        $Student->id = 0;
+        $Student->name = '';
+        $Student->num= '';
+        $Student->sex=0;
+        $Student->klass_id=0;
+        $Student->email= '';
+
+      $this->assign('Student', $Student);
+      $klasses = Klass::all();
+      $this->assign('klasses', $klasses);
+
+      $htmls = $this->fetch('edit');
+
       return $htmls;
     }
     public function insert() {
