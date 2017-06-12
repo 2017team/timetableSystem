@@ -1,10 +1,10 @@
 <?php
 namespace app\index\controller;
 
-class Index
+class IndexController
 {
     public function index()
     {
-        return 'b8tf b ';
+        return 'hello world';
     }
 }
