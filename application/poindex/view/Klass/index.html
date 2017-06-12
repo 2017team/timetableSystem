@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>班级管理</title>
-    <link rel="stylesheet" type="text/css" href="/timetableSystem/public/static/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/timetableSystem/public/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 </head>
 
 <body class="container">
@@ -38,14 +38,10 @@
                     <td>{$key}</td>
                     <td>{$klass->getData('name')}</td>
                     <td>
-<<<<<<< HEAD:application/poindex/view/Klass/index.html
                         {$klass->getTeacher()->getData('name')}
                         {$klass->getTeacher()->getData('id')}
                     </td>
                     <td><a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $klass->getData('id'))}"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>&nbsp;<a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $klass->getData('id'))}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
-=======
-                    {$klass->Teacher->name}
->>>>>>> d98fdb622b4058fbe0dc0b1cca5a2c63423751f5:application/zhangxishuo/view/Klass/index.html
                     </td>
                 </tr>
                 {/volist}
