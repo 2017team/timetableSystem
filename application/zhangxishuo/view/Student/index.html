@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>学生管理</title>
-    <link rel="stylesheet" type="text/css" href="/thinkphp5/public/static/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/thinkphp5/public/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 </head>
 
 <body class="container">
@@ -40,7 +40,6 @@
                 </tr>
                 {volist name="students" id="student" key="key"}
                 <tr>
-<<<<<<< HEAD:application/zhangxishuo/view/Student/index.html
                     <td>
                         {$key}
                     </td>
@@ -66,16 +65,6 @@
                     <td>
                         {$student->Klass->Teacher->name}
                     </td>
-=======
-                    <td>{$key}</td>
-                    <td>{$student->getData('name')}</td>
-                    <td>{$student->getData('num')}</td>
-                    <td>{$student->sex}</td>
-                    <td>{$student->getData('email')}</td>
-                    <td>{$student->create_time}</td>
-                    <td>{$student->Klass->name}</td>
-                    <td>{$student->Klass->Teacher->name}</td>
->>>>>>> development:application/index/shuview/Student/index.html
                     <td><a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $student->getData('id'))}"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>&nbsp;<a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $student->getData('id'))}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a></td>
                 </tr>
                 {/volist}
