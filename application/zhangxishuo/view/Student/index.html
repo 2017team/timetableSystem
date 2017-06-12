@@ -40,13 +40,21 @@
                 </tr>
                 {volist name="students" id="student" key="key"}
                 <tr>
-                    <td>{$key}</td>
-                    <td>{$student->getData('name')}</td>
-                    <td>{$student->getData('num')}</td>
+                    <td>
+                        {$key}
+                    </td>
+                    <td>
+                        {$student->getData('name')}
+                    </td>
+                    <td>
+                        {$student->getData('num')}
+                    </td>
                     <td>
                         {$student->sex}
                     </td>
-                    <td>{$student->getData('email')}</td>
+                    <td>
+                        {$student->getData('email')}
+                    </td>
                     <td>
                         {$student->create_time}
                     </td>

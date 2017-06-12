@@ -6,7 +6,8 @@ use think\Request;
 
 class StudentController extends IndexController{
 	public function index(){
-		$students = Student::paginate();
+		$student = new Student();
+		$students = $student->paginate();
 		$this->assign('students',$students);
 		return $this->fetch();
 	}

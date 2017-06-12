@@ -3,7 +3,6 @@ namespace app\zhangxishuo\model;
 use think\Model;
 
 class Student extends Model{
-	// 在C层中没有调用getSexAttr()方法，怎么将sex赋值为男/女的？这个方法怎么运行的？get...Attr()是规定好的名称吗？
 	public function getSexAttr($value){
 		$status = array('0'=>'男','1'=>'女');
 		$sex = $status[$value];
