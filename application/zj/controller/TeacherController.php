@@ -3,12 +3,11 @@ namespace app\zj\controller;
 use think\Controller;
 use think\Request;
 use app\zj\model\Teacher;       // 数据库操作类
-
-class TeacherController extends Controller
+use app\zj\model\IndexController;
+class TeacherController extends IndexController
 {
    public function index()
-    {
-        try {
+    {        
             // 获取查询信息
             $name = Request::instance()->get('name');
             echo $name;
@@ -34,15 +33,6 @@ class TeacherController extends Controller
 
             // 将数据返回给用户
             return $htmls;
-
-        // 获取到ThinkPHP的内置异常时，直接向上抛出，交给ThinkPHP处理
-        } catch (\think\Exception\HttpResponseException $e) {
-            throw $e;
-
-        // 获取到正常的异常时，输出异常
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        } 
     }
       public function insert()
     {

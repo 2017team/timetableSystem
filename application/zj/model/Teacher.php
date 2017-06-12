@@ -9,5 +9,47 @@ use think\Model;    //  导入think\Model类
 // 我的类名叫做Teacher，对应的文件名为Teacher.php，该类继承了Model类，Model我们在文件头中，提前使用use进行了导入。
 class Teacher extends Model
 {
-	
+	static public function login($username, $password)
+    {
+        $map = array('username' => $username);
+        $Teacher = self::get($map);
+        
+        if (!is_null($Teacher)) {
+            // 验证密码是否正确
+            if ($Teacher->checkPassword($password)) {
+                // 登录
+                session('teacherId', $Teacher->getData('id'));
+                return true;
+            }
+        }
+        return false;
+    }
+    public function checkPassword($password)
+    {
+        if ($this->getData('password') === $password)
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+	static public function logOut()
+    {
+        // 销毁session中数据
+        session('teacherId', null);
+        return true;
+    }
+    static public function isLogin()
+    {
+        $teacherId = session('teacherId');
+
+        // isset()和is_null()是一对反义词
+        if (isset($teacherId)) 
+        {
+            return true;
+        } else 
+        {
+            return false;
+        }
+    }
 }

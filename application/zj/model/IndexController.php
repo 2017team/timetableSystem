@@ -1,5 +1,5 @@
 <?php
-namespace app\zj\controller;     //命名空间，也说明了文件所在的文件夹
+namespace app\zj\model;     //命名空间，也说明了文件所在的文件夹
 use think\Controller;
 use app\zj\model\Teacher;      // 引入教师
 /**
