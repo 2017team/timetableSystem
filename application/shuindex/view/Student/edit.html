@@ -9,11 +9,12 @@
 <body class="contanier">
     <div class="row">
         <div class="col-md-12">
-        {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
+        {php}$action = request()->action() === 'add' ? 'insert' : 'update';{/php}
             <form action="{:url($action)}" method="post">
                 <label>姓名:</label>
                 <input type="hidden" name="id" value="{$Student->getData('id')}" />
-                <input type="text" name="name" value="{$Student->getData('name')}" />
+                {eq name="Student->name" value=""}
+                <input type="text" name="name" value="{$Student->getData('name')}" />{else /} {$Student->name} {/eq}
                 <label>学号:</label>
                 <input type="text" name="num" value="{$Student->getData('num')}" />
                 <label>性别:</label>

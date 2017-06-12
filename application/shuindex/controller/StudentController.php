@@ -15,126 +15,93 @@ class StudentController extends IndexController
         $name = Request::instance()->get('name');
 
             // 每页显示5条数据
-            $pageSize = 5; 
+        $pageSize = 5; 
 
             // 实例化Teacher
-            $Student = new Student; 
+        $Student = new Student; 
 
             // 定制查询信息
-            if (!empty($name)) {
-                $Student->where('name', 'like', '%' . $name . '%');
-            }
+        if (!empty($name)) {
+            $Student->where('name', 'like', '%' . $name . '%');
+        }
 
            // 按条件查询数据并调用分页
-            $students = $Student->paginate($pageSize, false, [
-                'query'=>[
-                'name' => $name,
-                ],
-                ]);
+        $students = $Student->paginate($pageSize, false, [
+            'query'=>[
+            'name' => $name,
+            ],
+            ]);
 
             // 向V层传数据
-            $this->assign('students', $students);
+        $this->assign('students', $students);
 
             // 取回打包后的数据
-            $htmls = $this->fetch();
+        $htmls = $this->fetch();
 
             // 将数据返回给用户
-            return $htmls;
-        }
-        public function edit() {
-           $id = Request::instance()->param('id/d');
+        return $htmls;
+    }
+    public function edit() {
+     $id = Request::instance()->param('id/d');
 
            // 判断是否存在当前记录
-           if (is_null($Student = Student::get($id))) {
-            return $this->error('未找到ID为' . $id . '的记录');
-        }
+     if (is_null($Student = Student::get($id))) {
+        return $this->error('未找到ID为' . $id . '的记录');
+    }
 
         // 取出班级列表
-        $klasses = Klass::all();
-        $this->assign('klasses', $klasses);
+    $klasses = Klass::all();
+    $this->assign('klasses', $klasses);
 
-        $this->assign('Student', $Student);
-        return $this->fetch();
+    $this->assign('Student', $Student);
+    return $this->fetch();
+}
+public function update() {
+  $id = Request::instance()->post('id/d');
+
+        // 获取传入的班级信息
+  $Student = Student::get($id);
+  if (!is_null($Student)) {
+    if (!$this->saveStudent($Student ,true)) {
+        return $this->error('操作失败' . $Student->getError());
     }
-    public function update() {
-      $id = Request::instance()->post('id/d');
+} else {
+    return $this->error('当前操作的记录不存在');
+}
 
-      // 获取传入的班级信息
-      $Student = Student::get($id);
-      if (is_null($Student)) {
-        return $this->error('系统未找到ID为' . $id . '的记录');
-    }
-
-    // 数据更新
-    $Student->name = Request::instance()->post('name');
-    $Student->num= Request::instance()->post('num');
-    $Student->sex=Request::instance()->post('sex');
-    $Student->klass_id=Request::instance()->post('klass_id');
-    $Student->email=Request::instance()->post('email');
-
-        if (!$Student->save()) {	
-            return $this->error('更新错误：' . $Student->getError());
-        } else {
-            return $this->success('操作成功', url('index'));
-        }
-    }
+        // 成功跳转至index触发器
+return $this->success('操作成功', url('index'));
+}
     // 添加
-    public function add() {
-        $Student =new Student;
+public function add() {
+    $Student =new Student;
+    $Student->id = 0;
+    $Student->name = '';
+    $Student->num= '';
+    $Student->sex=0;
+    $Student->klass_id=0;
+    $Student->email= '';
 
-        $Student->id = 0;
-        $Student->name = '';
-        $Student->num= '';
-        $Student->sex=0;
-        $Student->klass_id=0;
-        $Student->email= '';
+    $this->assign('Student', $Student);
+    $klasses = Klass::all();
+    $this->assign('klasses', $klasses);
 
-      $this->assign('Student', $Student);
-      $klasses = Klass::all();
-      $this->assign('klasses', $klasses);
+    $htmls = $this->fetch('edit');
 
-      $htmls = $this->fetch('edit');
-
-      return $htmls;
-    }
-    public function insert() {
-        $message = '';  // 提示信息
-
-        try {
-            // 接收传入数据
-            $postData = Request::instance()->post();    
+    return $htmls;
+}
+public function insert() {
+           $postData = Request::instance()->post();    
 
             // 实例化Teacher空对象
             $Student = new Student();
-
-            // 为对象赋值
-            $Student->name = $postData['name'];
-            $Student->num = $postData['num'];
-            $Student->sex = $postData['sex'];
-            $Student->klass_id = $postData['klass_id'];
-            $Student->email = $postData['email'];
-
-            // 新增对象至数据表
-            $result = $Student->validate(true)->save();
-
-            // 反馈结果
-            if ($result ===false )
-            {
-                // 验证未通过，发生错误
-                $message = '新增失败:' . $Student->getError();
-            } else {
-                // 提示操作成功，并跳转至教师管理列表
-                return $this->success('用户' . $Student->name . '新增成功。', url('index'));
+           // 新增数据
+            if (!$this->saveStudent($Student)) {
+                return $this->error('操作失败' . $Student->getError());
             }
-             // 获取到ThinkPHP的内置异常时，直接向上抛出，交给ThinkPHP处理
-        } catch (\think\Exception\HttpResponseException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            // 发生异常
-            return $e->getMessage();
-        }
 
-        return $this->error($message);
+        // 成功跳转至index触发器
+            return $this->success('操作成功', url('index'));
     }
     // 测试
     public function test() {
@@ -179,5 +146,17 @@ class StudentController extends IndexController
         // 进行跳转 
         return $this->success('删除成功', $Request->header('referer')); 
     }
+    private function saveStudent(Student &$Student, $isUpdate = false)
+    {
+        // 为对象赋值
+        if(!$isUpdate){
+        $Student->name =input('post.name');}
+        $Student->num = input('post.num');
+        $Student->sex = input('post.sex');
+        $Student->klass_id = input('post.klass_id');
+        $Student->email = input('post.email');
 
+        // 新增对象至数据表
+        return  $Student->validate(true)->save();
+    }
 }
