@@ -91,8 +91,19 @@ class TeacherController extends IndexController
     public function add()//添加
     {
     	 try {
-            $htmls = $this->fetch();
-            return $htmls;
+             // 实例化
+        $Teacher = new Teacher;
+
+        // 设置默认值
+        $Teacher->id = 0;
+        $Teacher->name = '';
+        $Teacher->username = '';
+        $Teacher->sex = 0;
+        $Teacher->email = '';
+        $this->assign('Teacher', $Teacher);
+
+        // 调用edit模板
+        return $this->fetch('edit');
         } catch (\Exception $e) {
             return '系统错误' . $e->getMessage();
         }
