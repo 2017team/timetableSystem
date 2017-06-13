@@ -25,8 +25,11 @@ class CourseController extends IndexController
         $Klass = new Klass;
         $Klasses = Klass::all();
         $this->assign('klasses',$Klasses);
+        $Course = new Course;
+        $Course->id = 0;
+        $Course->name = '';
         $this->assign('Course',new Course);
-        return $this->fetch();
+        return $this->fetch('edit');
     }
     public function save()
     {
