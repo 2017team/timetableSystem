@@ -12,7 +12,7 @@ class Teacher extends Validate
         'name'  => 'require|length:2,25',
         'sex' => 'in:0,1',
         'email' => 'email',
-        ];
+    ];
 
     protected $message = [
         'name.require'  =>  '用户名必须',

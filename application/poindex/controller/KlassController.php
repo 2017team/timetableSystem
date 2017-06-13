@@ -1,7 +1,8 @@
 <?php
 namespace app\poindex\controller;
 use app\poindex\common\model\Klass;     // 班级
-use think\Request;       //请求
+use think\Request;      //请求
+use app\poindex\common\model\Teacher;   //教师
 
 class KlassController extends IndexController
 {
@@ -43,11 +44,27 @@ class KlassController extends IndexController
 
      public function add()
     {
+        //获取所有的教师信息
+        $teachers = Teacher::all();
+        $this->assign('teachers',$teachers);
         return $this->fetch();
     }
 
     public function save()
     {
-        var_dump(Request::instance()->post());
+        // 实例化请求信息
+        $Request = Request::instance();
+
+        // 实例化班级并赋值
+        $Klass = new Klass();
+        $Klass->name = $Request->post('name');
+        $Klass->teacher_id = $Request->post('teacher_id/d');
+        
+        // 添加数据
+        if (!$Klass->validate(true)->save()) {
+            return $this->error('数据添加错误：' . $Klass->getError());
+        }
+
+        return $this->success('操作成功', url('index'));
     }
 }
