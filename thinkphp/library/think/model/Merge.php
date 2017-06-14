@@ -17,9 +17,9 @@ use think\Model;
 class Merge extends Model
 {
 
-    protected $relationModel = []; // HAS ONE 关联的模型列表
-    protected $fk            = ''; //  外键名 默认为主表名_id
-    protected $mapFields     = []; //  需要处理的模型映射字段，避免混淆 array( id => 'user.id'  )
+    protected static $relationModel = []; // HAS ONE 关联的模型列表
+    protected $fk                   = ''; //  外键名 默认为主表名_id
+    protected $mapFields            = []; //  需要处理的模型映射字段，避免混淆 array( id => 'user.id'  )
 
     /**
      * 架构函数
@@ -61,14 +61,14 @@ class Merge extends Model
     {
         $class  = new static();
         $master = $class->name;
-        $fields = self::getModelField($query, $master, '', $class->mapFields, $class->field);
+        $fields = self::getModelField($query, $master, '', $class->mapFields);
         $query->alias($master)->field($fields);
 
-        foreach ($class->relationModel as $key => $model) {
+        foreach (static::$relationModel as $key => $model) {
             $name  = is_int($key) ? $model : $key;
             $table = is_int($key) ? $query->getTable($name) : $model;
             $query->join($table . ' ' . $name, $name . '.' . $class->fk . '=' . $master . '.' . $class->getPk());
-            $fields = self::getModelField($query, $name, $table, $class->mapFields, $class->field);
+            $fields = self::getModelField($query, $name, $table, $class->mapFields);
             $query->field($fields);
         }
         return $query;
@@ -81,13 +81,12 @@ class Merge extends Model
      * @param string            $name 模型名称
      * @param string            $table 关联表名称
      * @param array             $map 字段映射
-     * @param array             $fields 查询字段
      * @return array
      */
-    protected static function getModelField($query, $name, $table = '', $map = [], $fields = [])
+    protected static function getModelField($query, $name, $table = '', $map = [])
     {
         // 获取模型的字段信息
-        $fields = $fields ?: $query->getTableInfo($table, 'fields');
+        $fields = $query->getTableInfo($table, 'fields');
         $array  = [];
         foreach ($fields as $field) {
             if ($key = array_search($name . '.' . $field, $map)) {
@@ -127,7 +126,7 @@ class Merge extends Model
         $item = [];
         foreach ($data as $key => $val) {
             if ($insert || in_array($key, $this->change) || $this->isPk($key)) {
-                if ($this->fk != $key && array_key_exists($key, $this->mapFields)) {
+                if (array_key_exists($key, $this->mapFields)) {
                     list($name, $key) = explode('.', $this->mapFields[$key]);
                     if ($model == $name) {
                         $item[$key] = $val;
@@ -204,18 +203,14 @@ class Merge extends Model
                 $result = $db->strict(false)->where($where)->update($data);
 
                 // 写入附表数据
-                foreach ($this->relationModel as $key => $model) {
+                foreach (static::$relationModel as $key => $model) {
                     $name  = is_int($key) ? $model : $key;
                     $table = is_int($key) ? $db->getTable($model) : $model;
                     // 处理关联模型数据
                     $data  = $this->parseData($name, $this->data);
                     $query = clone $db;
-                    if ($query->table($table)->strict(false)->where($this->fk, $this->data[$this->getPk()])->update($data)) {
-                        $result = 1;
-                    }
+                    $query->table($table)->strict(false)->where($this->fk, $this->data[$this->getPk()])->update($data);
                 }
-                // 清空change
-                $this->change = [];
                 // 新增回调
                 $this->trigger('after_update', $this);
             } else {
@@ -238,35 +233,20 @@ class Merge extends Model
                 if ($result) {
                     $insertId = $db->getLastInsID($sequence);
                     // 写入外键数据
-                    $pk = $this->getPk();
                     if ($insertId) {
-                        if (is_string($pk)) {
-                            $this->data[$pk] = $insertId;
-                            if ($this->fk == $pk) {
-                                $this->change[] = $pk;
-                            }
-                        }
                         $this->data[$this->fk] = $insertId;
                     }
 
                     // 写入附表数据
-                    $source = $this->data;
-                    if ($insertId && is_string($pk) && isset($source[$pk]) && $this->fk != $pk) {
-                        unset($source[$pk]);
-                    }
-                    foreach ($this->relationModel as $key => $model) {
+                    foreach (static::$relationModel as $key => $model) {
                         $name  = is_int($key) ? $model : $key;
                         $table = is_int($key) ? $db->getTable($model) : $model;
                         // 处理关联模型数据
-                        $data  = $this->parseData($name, $source, true);
+                        $data  = $this->parseData($name, $this->data, true);
                         $query = clone $db;
                         $query->table($table)->strict(false)->insert($data);
                     }
                 }
-                // 标记为更新
-                $this->isUpdate = true;
-                // 清空change
-                $this->change = [];
                 // 新增回调
                 $this->trigger('after_insert', $this);
             }
@@ -298,7 +278,7 @@ class Merge extends Model
                 $pk = $this->data[$this->getPk()];
 
                 // 删除关联数据
-                foreach ($this->relationModel as $key => $model) {
+                foreach (static::$relationModel as $key => $model) {
                     $table = is_int($key) ? $db->getTable($model) : $model;
                     $query = clone $db;
                     $query->table($table)->where($this->fk, $pk)->delete();
