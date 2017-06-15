@@ -73,6 +73,24 @@ class CourseController extends IndexController{
 	}
 
 	public function update(){
-		var_dump(Request::instance()->post());
+		//var_dump(Request::instance()->post());
+
+		$id = Request::instance()->post('id/d');
+		if (is_null($Course = Course::get($id))) {
+			return $this->error('Error' . $id . 'Not Found');
+		}
+
+		$Course->name = Request::instance()->post('name');
+
+		if (is_null($Course->validate(true)->save())){
+			return $this->error('Wrong' . $Course->getError());
+		}
+
+		//删除原有信息
+		$map = ['course_id' => $id];
+
+		if (false === $Course->KlassCourses()->where($map)->delete()){
+			return $this->error('Course Save Error' . $Course->Klasses());
+		}
 	}
 }
