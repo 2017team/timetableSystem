@@ -1,9 +1,9 @@
 <?php
-namespace app\shuindex\controller;
-use app\shuindex\model\Course;       // 课程
-use think\Request;     //引用Request
-use app\shuindex\model\Klass;       // 教师
-use app\shuindex\model\KlassCourse;
+namespace app\zj\controller;
+use think\Request; 
+use app\zj\model\Klass;
+use app\zj\model\Course;       // 课程
+use app\zj\model\KlassCourse;
 /**
  * 课程管理
  */
@@ -11,8 +11,8 @@ class CourseController extends IndexController
 {
     public function index()
     {
-    	$pageSize = 5;
-    	$Course = new Course; 
+        $pageSize = 5;
+        $Course = new Course; 
         $courses = $Course->paginate($pageSize);
         // 向V层传数据
         $this->assign('courses', $courses);
@@ -25,15 +25,10 @@ class CourseController extends IndexController
         $Klass = new Klass;
         $Klasses = Klass::all();
         $this->assign('klasses',$Klasses);
-        $Course = new Course;
-        $Course->id = 0;
-        $Course->name = '';
-        $this->assign('Course',new Course);
-        return $this->fetch('edit');
+        return $this->fetch();
     }
     public function save()
     {
-         // 存课程信息
         $Course = new Course();
         $Course->name = Request::instance()->post('name');
 
@@ -41,15 +36,24 @@ class CourseController extends IndexController
         if (!$Course->validate(true)->save()) {
             return $this->error('课程保存错误：' . $Course->getError());
         }
-
-        // -------------------------- 新增班级课程信息 -------------------------- 
-        // 接收klass_id这个数组
         $klassIds = Request::instance()->post('klass_id/a');       // /a表示获取的类型为数组
-
         // 利用klass_id这个数组，拼接为包括klass_id和course_id的二维数组。
         if (!is_null($klassIds)) {
-            if (!$Course->Klasses()->saveAll($klassIds)) {
-                return $this->error('课程-班级信息保存错误：' . $Course->Klasses()->getError());
+            $datas = array();
+            foreach ($klassIds as $klassId) {
+                $data = array();
+                $data['klass_id'] = $klassId;
+                $data['course_id'] = $Course->id;     // 此时，由于前面已经执行过数据插入操作，所以可以直接获取到Course对象中的ID值。
+                array_push($datas, $data);
+            }
+
+            // 利用saveAll()方法，来将二维数据存入数据库。
+            if (!empty($datas)) {
+                $KlassCourse = new KlassCourse;
+                if (!$KlassCourse->validate(true)->saveAll($datas)) {
+                    return $this->error('课程-班级信息保存错误：' . $KlassCourse->getError());
+                }
+                unset($KlassCourse);    // unset出现的位置和new语句的缩进量相同，最后被执行
             }
         }
         // -------------------------- 新增班级课程信息(end) -------------------------- 
@@ -84,13 +88,14 @@ class CourseController extends IndexController
 
         // 删除原有信息
         $map = ['course_id'=>$id];
+      
 
-        // 执行删除操作。由于可能存在 成功删除0条记录，故使用false来进行判断，而不能使用
-        // if (!KlassCourse::where($map)->delete()) {
-        // 我们认为，删除0条记录，也是成功
-        if (false === $Course->KlassCourses()->where($map)->delete()) {
-            return $this->error('删除班级课程关联信息发生错误' . $Course->KlassCourses()->getError());
-        }
+//        if (false === $Course->KlassCourses()->where($map)->delete()) {
+//        return $this->error('删除班级课程关联信息发生错误' . $Course->KlassCourses()->getError());
+//        }
+
+
+
 
         // 增加新增数据，执行添加操作。
         $klassIds = Request::instance()->post('klass_id/a');
