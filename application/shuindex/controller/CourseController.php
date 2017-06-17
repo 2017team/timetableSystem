@@ -30,7 +30,7 @@ class CourseController extends IndexController
         $Course->name = '';
         $this->assign('Course',$Course);
         $this->assign('klasses',$Klasses);
-        return $this->fetch();
+        return $this->fetch('edit');
     }
     public function save()
     {
