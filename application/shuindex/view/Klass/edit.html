@@ -1,0 +1,54 @@
+<!-- <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑</title>
+</head>
+<body>
+    {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
+      <form action="{:url($action)}" method="post">
+        <input type="hidden" name="id" value="{$Klass->getData('id')}" />
+        <label for="name">name:</label>
+        {eq name="Klass->name" value=""}<input type="text" name="name" id="name" value="{$Klass->getData('name')}" /> {else /} {$Klass->name} {/eq}
+        <label for="teacher">teacher:</label>
+       <select name="teacher_id" id="teacher">
+           {volist name="teachers" id="_Teacher"}
+            <option value="{$_Teacher->getData('id')}" {eq name="_Teacher->getData('id')" value="$Klass->getData('teacher_id')"} selected="selected" {/eq}>{$_Teacher->getData('name')}</option>
+           {/volist}
+        </select>
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{block name="title"}编辑{/block}</title>
+</head>
+
+<body class="contanier">
+  <div class="row">
+    <div class="col-md-12">
+      {block name="content"}
+      {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
+      <form action="{:url($action)}" method="post">
+        <input type="hidden" name="id" value="{$Klass->getData('id')}" />
+        <label for="name">name:</label>
+        {eq name="Klass->name" value=""}<input type="text" name="name" id="name" value="{$Klass->getData('name')}" /> {else /} {$Klass->name} {/eq}
+        <label for="teacher">teacher:</label>
+        <select name="teacher_id" id="teacher">
+         {volist name="teachers" id="_Teacher"}
+         <option value="{$_Teacher->getData('id')}" {eq name="_Teacher->getData('id')" value="$Klass->getData('teacher_id')"} selected="selected" {/eq}>{$_Teacher->getData('name')}</option>
+         {/volist}
+       </select>
+       <button type="submit">submit</button>
+     </form>
+     {/block}
+   </div>
+ </div>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>课程表</title>
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+</head>
+<body>
+	<h1 class="text-center">课程表</h1>
+	<form class="form-inline row">
+		<div class="col-md-3" >
+			<label for="person">请假人</label>
+			<select class="form-control" id="person">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</div>
+		<div class="col-md-3" >
+			<label for="person">请假人</label>
+			<select class="form-control" id="person">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</div>
+		<div class="col-md-3" >
+			<label for="person">请假人</label>
+			<select class="form-control" id="person">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+			<button class="btn btn-default" type="submit">请假</button>
+		</div>
+		<div class="col-md-3 text-right">
+                    <a href="{:url('add')}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;增加</a>
+        </div>
+	</form>
+
+	<table class="table table-bordered table-hover">
+		<tr>
+			<th>姓名</th>
+			<th>第一节</th>
+			<th>第二节</th>
+			<th>第三节</th>
+			<th>第四节</th>
+		</tr>
+		{volist name="timetables" id="timetable" key="key"}
+		<tr>
+			<td>{$timetable->name}</td>
+			<td>{$timetable->course1}</td>
+			<td>{$timetable->course2}</td>
+			<td>{$timetable->course3}</td>
+			<td>{$timetable->course4}</td>
+		</tr>
+		{/volist}
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+</body>
+</html>
