@@ -9,6 +9,8 @@ class LoginController extends Controller
     // 用户登录表单
     public function index()
     {
+
+       echo('1');
         //显示登录表单
         return $this->fetch();
     }
