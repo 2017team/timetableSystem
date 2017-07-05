@@ -6,16 +6,26 @@ use think\Request;
 
 class CourseController extends IndexController{
 	public function index(){
+		$pageSize = 5;
+    	$Course = new Course; 
+        $courses = $Course->paginate($pageSize);
+        
+        $this->assign('courses', $courses);
 
+        return $this->fetch();
 	}
 
 	public function add(){
-		$this->assign('Course',new Course);
+		$Course = new Course();
+		$Course->name = '';
+		$Course->id = 0;
+
+		$this->assign('Course',$Course);
 
 		// $klasses = Klass::All();
 		// $this->assign('klasses',$klasses);
 
-		return $this->fetch();
+		return $this->fetch('edit');
 	}
 
 	public function edit(){

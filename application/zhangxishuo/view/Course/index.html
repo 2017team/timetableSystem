@@ -1,0 +1,35 @@
+{extend name="index"/}
+{block name="title"}
+课程管理
+{/block}
+
+{block name="content"}
+        <table class="table table-hover table-bordered">
+            <tr class="info">
+                <th>序号</th>
+                <th>名称</th>
+                <th>操作</th>
+            </tr>
+                {volist name="courses" id="course" key="key"}
+                <tr>
+                    <td>{$key}</td>
+                    <td>{$course->getData('name')}</td>
+                   
+
+                    <td>
+                    <a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $course->getData('id'))}">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        &nbsp;删除
+                    </a>
+
+                    &nbsp;
+
+                    <a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $course->getData('id'))}">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        &nbsp;编辑
+                    </a>
+                    </td>
+                </tr>
+            {/volist}
+        </table>
+{/block}

@@ -18,4 +18,15 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
+    ''            => ['zhangxishuo/Login/index',['method' => 'get']],
+    'login'       => ['zhangxishuo/Login/login',['method' => 'post']],
+    'logout'      => ['zhangxishuo/Login/logout',['method' => 'get']],
+
+    'teacher/'      =>  ['zhangxishuo/Teacher/index', ['method' => 'get']],
+    'teacher/add'   =>  ['zhangxishuo/Teacher/add', ['method' => 'get']],
+    'teacher/save'  =>  ['zhangxishuo/Teacher/save', ['method' => 'post']],
+    'teacher/edit/:id'  =>  ['zhangxishuo/Teacher/edit', ['method' => 'get'], ['id' => '\d+']],
+    'teacher/update'  =>  ['zhangxishuo/Teacher/update', ['method' => 'post']],
+    'teacher/delete/:id'     => ['zhangxishuo/Teacher/delete', ['method' => 'get'], ['id' => '\d+']],
+
 ];
