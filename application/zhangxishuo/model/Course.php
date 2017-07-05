@@ -22,4 +22,8 @@ class Course extends Model{
 			return true;
 		}
 	}
+
+	public function KlassCourses(){
+		return $this->hasMany('KlassCourse');
+	}
 }
