@@ -5,10 +5,12 @@
     <title>编辑</title>
 </head>
 <body>
-    <form action="{:url('update')}" method="post">
+    {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
+    <form action="{:url($action)}" method="post">
         <input type="hidden" name="id" value="{$Course->getData('id')}" />
         <label for="name">name:</label><input type="text" name="name" id="name" value="{$Course->name}"/>
-         {volist name="Course->Klasses()->select()" id="klass"}
+         {volist name="klasses" id="klass"}
+         <!-- {:var_dump($Course->Klasses())} -->
             <input type="checkbox" name="klass_id[]" id="klass_id_{$klass->id}" value="{$klass->id}" {eq name="Course->getIsChecked($klass)" value="true"}checked="checked"{/eq}/>
             <label for="klass_id_{$klass->id}">{$klass->name}</label>
         {/volist}

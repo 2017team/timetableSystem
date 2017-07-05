@@ -1,16 +1,17 @@
 <?php
 namespace app\shuindex\model;
 use think\Model;
+use app\shuindex\model\KlassCourse;
 
 /**
  * 班级
  */
 class Course extends Model
 {
-	public function Klasses()
-	{
-		return $this->belongsToMany('Klass', config('database.prefix').'klass_course');
-	}
+	 public function Klasses()
+    {
+        return $this->belongsToMany('Klass',  config('database.prefix') . 'klass_course');
+    }
     public function getIsChecked(Klass &$Klass)
     {
     	//去课程id
