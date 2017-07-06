@@ -3,6 +3,7 @@ namespace app\zhangxishuo\model;
 use think\Model;
 
 class Student extends Model{
+
 	public function getSexAttr($value){
 		$status = array('0'=>'男','1'=>'女');
 		$sex = $status[$value];
@@ -25,5 +26,11 @@ class Student extends Model{
 
 	public function Klass(){
 		return $this->belongsTo('Klass');
+
+		// $id = $this->klass_id;
+		// var_dump($id);
+		// $Klass = Klass::get($id);
+		// var_dump($Klass);
+		// return $Klass;
 	}
 }

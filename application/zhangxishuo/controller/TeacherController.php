@@ -24,6 +24,8 @@ class TeacherController extends Controller
             // 实例化Teacher
             $Teacher = new Teacher; 
 
+            trace($Teacher,'debug');
+
             // 定制查询信息
             if (!empty($name)) {
                 $Teacher->where('name', 'like', '%' . $name . '%');
@@ -100,13 +102,20 @@ class TeacherController extends Controller
     public function add()
     {
         try {
-            $htmls = $this->fetch();
-            return $htmls;
+            $Teacher = new Teacher;
+
+            $Teacher->id = 0;
+            $Teacher->name = '';
+            $Teacher->username = '';
+            $Teacher->sex = 0;
+            $Teacher->email = '';
+            $this->assign('Teacher',$Teacher);
+
+            return $this->fetch('edit');
         } catch (\Exception $e) {
             return '系统错误' . $e->getMessage();
         }
     }
-
 
 
     public function delete()
@@ -196,16 +205,16 @@ class TeacherController extends Controller
             // 获取当前对象
             $Teacher = Teacher::get($id);
 
-            if (!is_null($teacher)) {
+            if (!is_null($Teacher)) {
                 // 写入要更新的数据
-                $Teacher->name = input('post.name');
-                $Teacher->username = input('post.username');
-                $Teacher->sex = input('post.sex');
-                $Teacher->email = input('post.email');
+                // $Teacher->name = input('post.name');
+                // $Teacher->username = input('post.username');
+                // $Teacher->sex = input('post.sex');
+                // $Teacher->email = input('post.email');
 
                 // 更新
-                if (false === $Teacher->validate(true)->save()) {
-                    return $this->error('更新失败' . $Tteacher->getError());
+                if (!$this->saveTeacher($Teacher,true)) {
+                    return $this->error('更新失败' . $Teacher->getError());
                 }
             } else {
                 throw new \Exception("所更新的记录不存在", 1);   // 调用PHP内置类时，需要在前面加上 \ 
@@ -224,6 +233,16 @@ class TeacherController extends Controller
         return $this->success('操作成功', url('index'));
     }
 
+    public function save(){
+        $Teacher = new Teacher();
+
+        if (!$this->saveTeacher($Teacher)) {
+                    return $this->error('更新失败' . $Teacher->getError());
+                }
+
+        return $this->success('操作成功', url('index'));
+    }
+
     public function test()
     {
         try {
@@ -238,5 +257,16 @@ class TeacherController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         } 
+    }
+
+    private function saveTeacher(Teacher &$Teacher,$isUpdate = false){
+        $Teacher->name = Request::instance()->post('name');
+        if(!$isUpdate){
+            $Teacher->username = Request::instance()->post('username');
+        }
+        $Teacher->sex = Request::instance()->post('sex');
+        $Teacher->email = Request::instance()->post('email');
+
+        return $Teacher->validate()->save();
     }
 }

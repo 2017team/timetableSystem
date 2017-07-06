@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<title>Add</title>
@@ -8,13 +8,12 @@
 		<label for="name">name:</label>
 		<input type="text" name="name" id="name" />
 
-		<!-- {:var_dump($Course->Klasses())} -->
+		{:var_dump($Course->Klasses())}
 
-		<!-- <input type="checkbox" name="klass_id[]" id="klass_id_1" value="1" />
-		<label for="klass_id_1">Class 1</label> -->
+		<input type="checkbox" name="klass_id[]" id="klass_id_1" value="1" />
+		<label for="klass_id_1">Class 1</label>
 
 		{volist name="Course->Klasses()->select()" id="klass"}
-			{:var_dump($Course)}
             <input type="checkbox" name="klass_id[]" id="klass_id_{$klass->id}" value="{$klass->id}" />
             <label for="klass_id_{$klass->id}">{$klass->name}</label>
         {/volist}
@@ -22,4 +21,4 @@
 		<button type="submit">submit</button>
 	</form>
 </body>
-</html>
+</html> -->
