@@ -24,11 +24,12 @@ class CourseController extends IndexController
     {
         $Klass = new Klass;
         $Klasses = Klass::all();
-        $this->assign('klasses',$Klasses);
+       
         $Course = new Course;
         $Course->id = 0;
         $Course->name = '';
-        $this->assign('Course',new Course);
+        $this->assign('Course',$Course);
+        $this->assign('klasses',$Klasses);
         return $this->fetch('edit');
     }
     public function save()
@@ -61,11 +62,13 @@ class CourseController extends IndexController
     {
         $id = Request::instance()->param('id/d');
         $Course = Course::get($id);
+        $Klasses = Klass::all();
 
         if(is_null($Course)){
             return $this->error('不存在ID为'.$id.'的记录');
         }
         $this->assign('Course',$Course);
+        $this->assign('klasses',$Klasses);
         return $this->fetch();
     }
      public function update()
