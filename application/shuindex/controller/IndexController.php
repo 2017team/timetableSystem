@@ -12,7 +12,6 @@ class IndexController extends Controller
     {
         // 调用父类构造函数(必须)
         parent::__construct();
-
         // 验证用户是否登陆
         if (!Teacher::isLogin()) {
             return $this->error('plz login first', url('Login/index'));
@@ -21,5 +20,6 @@ class IndexController extends Controller
 
     public function index()
     {
+        echo("www");
     }
 }

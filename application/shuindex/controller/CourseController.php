@@ -38,7 +38,7 @@ class CourseController extends IndexController
         $Course = new Course();
         $Course->name = Request::instance()->post('name');
 
-        // 新增数据并验证。验证类我们好像还没有写呢。自己参考其它的验证类，写一下吧。
+       
         if (!$Course->validate(true)->save()) {
             return $this->error('课程保存错误：' . $Course->getError());
         }

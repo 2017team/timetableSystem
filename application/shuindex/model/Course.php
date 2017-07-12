@@ -23,6 +23,7 @@ class Course extends Model
     	$map['course_id'] = $courseId;
     	//有记录，返回true；没记录，返回false
     	$KlassCourse = KlassCourse::get($map);
+        var_dump($KlassCourse);
     	if (is_null($KlassCourse)) {
     		return false;
     	} else {

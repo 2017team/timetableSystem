@@ -22,6 +22,9 @@ class TeacherController extends IndexController
             // 实例化Teacher
             $Teacher = new Teacher; 
 
+            // 打印$Teacher 至控制台
+            trace($Teacher, 'debug');
+
             // 定制查询信息
             if (!empty($name)) {
                 $Teacher->where('name', 'like', '%' . $name . '%');
@@ -42,8 +45,7 @@ class TeacherController extends IndexController
 
             // 将数据返回给用户
             return $htmls;
-
-        
+            
         }
 
       

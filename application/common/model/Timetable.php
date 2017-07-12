@@ -1,9 +1,9 @@
 <?php
 
-namespace app\shuindex\model;
+namespace app\index\model;
 use think\Model;    //  导入think\Model类
 
-class Teacher extends Model
+class Timetable extends Model
 {
 	
 }

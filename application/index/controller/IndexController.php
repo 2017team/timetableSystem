@@ -5,6 +5,6 @@ class IndexController
 {
     public function index()
     {
-        return 'hello world';
+        return 'hollo world';
     }
 }
