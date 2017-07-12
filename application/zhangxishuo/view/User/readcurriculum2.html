@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="utf-8">
+    <title>查询课程</title>
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+</head>
+<body class="container">
+    <h2 style="text-align: center">查询课程</h2>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <form class="form-inline">
+                <div class="form-group">
+                    <input name="name" type="text" class="form-control" placeholder="课程名..." value="离散数学">
+                </div>
+                
+                <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>&nbsp;查询</button>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{:url('addcurriculum')}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加课程</a>
+
+            <a href="{:url('deletecurriculum')}" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i>&nbsp;管理课程</a>
+        </div>
+    </div>
+
+    <hr />
+
+    <table class="table table-hover table-bordered">
+        <tr class="info">
+            <th class="col-md-1">序号</th>
+            <th class="col-md-2">课程名</th>
+            <th class="col-md-5">上课周次</th>
+            <th class="col-md-4">上课时间</th>
+        </tr>
+
+        <tr>
+            <td>1</td>
+            <td>离散数学</td>
+            <td>1 2 3 4 5 6 7 8 9 10</td>
+            <td>星期一 第一节</td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>离散数学</td>
+            <td>1 2 3 4 5 6 7 8 9 10 11 12 13</td>
+            <td>星期二 第二节</td>
+        </tr>
+    </table>
+    
+</body>
+</html>

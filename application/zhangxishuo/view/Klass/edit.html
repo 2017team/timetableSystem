@@ -1,6 +1,6 @@
 {extend name="edit"} 
 {block name="title"}
-{eq name="Teacher->id" value=""}添加班级{else /}编辑班级{/eq}
+{eq name="Klass->id" value=""}添加班级{else /}编辑班级{/eq}
 {/block}
 {block name="content"}
 {php}$action = request()->action() === 'add' ? 'save' : 'update';{/php}
